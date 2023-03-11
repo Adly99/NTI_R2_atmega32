@@ -26,6 +26,6 @@ NTI_R2_atmega32_interface
 2.register
 3.std_types
 
-#APP
-1.ICU SW
-2.ICU HW
+# APP
+1. ICU SW
+2. ICU HW
