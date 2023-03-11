@@ -22,9 +22,9 @@ NTI_R2_atmega32_interface
 6. STEPPER MOTOR driver																																																									
 
 # LIB 
-1.bit_math
-2.register
-3.std_types
+1. bit_math
+2. register
+3. std_types
 
 # APP
 1. ICU SW
