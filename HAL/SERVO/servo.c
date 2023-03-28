@@ -1,7 +1,7 @@
 /**********************************************************************************************************************
  *  FILE DESCRIPTION
  *  -----------------------------------------------------------------------------------------------------------------*/
-/**        \file  lcd_cfg.c
+/**        \file  FileName.c
  *        \brief  
  *
  *      \details  
@@ -12,9 +12,8 @@
 /**********************************************************************************************************************
  *  INCLUDES
  *********************************************************************************************************************/
-#include "lcd_cfg.h"
-#include "..\..\LIB\std_types.h"
-
+#include "servo.h"
+//#include "../../MCAL/TIMER0/TIMR0_int.h"
 /**********************************************************************************************************************
 *  LOCAL MACROS CONSTANT\FUNCTION
 *********************************************************************************************************************/
@@ -26,17 +25,7 @@
 /**********************************************************************************************************************
  *  GLOBAL DATA
  *********************************************************************************************************************/
-u8 customChar[NO_CSTOM_CHAR][NO_CSTOM_CHAR_BYTES]=
-{
-		{0x0A,0x1F,0x1F,0x1F,0x1F,0x0E,0x04,0x00},	/* Heart symbol	 */
-		{0x04,0x1F,0x11,0x11,0x11,0x11,0x11,0x1F},	/* Empty battery */
-		{0x04,0x1F,0x11,0x11,0x11,0x11,0x1F,0x1F},	/*	20% battery  */
-		{0x04,0x1F,0x11,0x11,0x11,0x1F,0x1F,0x1F},  /*	40% battery  */
-		{0x04,0x1F,0x11,0x11,0x1F,0x1F,0x1F,0x1F},	/*	60% battery  */
-		{0x04,0x1F,0x11,0x1F,0x1F,0x1F,0x1F,0x1F},	/*	80% battery  */
-		{0x04,0x1F,0x1F,0x1F,0x1F,0x1F,0x1F,0x1F},	/*	100% battery */
-		{0x00,0x00,0x01,0x01,0x05,0x05,0x15,0x15},	/*	Mobile Signal*/
-};
+
 /**********************************************************************************************************************
  *  LOCAL FUNCTION PROTOTYPES
  *********************************************************************************************************************/
@@ -50,6 +39,53 @@ u8 customChar[NO_CSTOM_CHAR][NO_CSTOM_CHAR_BYTES]=
  *********************************************************************************************************************/
 
 
+/******************************************************************************
+* \Syntax          : Std_ReturnType FunctionName(AnyType parameterName)        
+* \Description     : Describe this service                                    
+*                                                                             
+* \Sync\Async      : Synchronous                                               
+* \Reentrancy      : Non Reentrant                                             
+* \Parameters (in) : parameterName   Parameter Describtion                                                                         
+* \Return value:   : Std_ReturnType  E_OK
+*                                    E_NOT_OK                                  
+*******************************************************************************/
+void servo_init()
+{
+	//TIMER1_void_Init();
+	// Set Fast PWM, TOP in ICR1, Clear OC1A on compare match, clk/64
+	TCCR1A = (1<<WGM11)|(1<<COM1B1);
+	TCCR1B = (1<<WGM12)|(1<<WGM13)|(1<<CS10)|(1<<CS11);
+	// Set timer1 count zero
+	//TIMER1_void_SetTimerReg(0);
+	TCNT1=0;
+	// Set TOP count for timer1 in ICR1 register
+	//TIMER1_void_SetInputCaptureUnitVal(2499);
+	ICR1 = 4998;
+	// Configure the output pin for the servo signal
+	dio_vidConfigChannel(DIO_PORTD,DIO_PIN4,OUTPUT);
+	
+	
+
+}
+
+void servo_set_angle(u8 angle) {
+	// Map angle (0-180) to OCR0 value (0-255)
+	u16 ocr_value = (u16)124+(u16)(((u16)500*(u16)angle)/(u16)180);
+	// Set OCR1B value for pulse width control
+	OCR1B = ocr_value;
+}
+void servo_full_open(){
+		// Map angle (0-180) to OCR0 value (0-255)
+		u16 ocr_value = 624;
+		// Set OCR1B value for pulse width control
+		OCR1B = ocr_value;
+}
+void servo_full_close(){
+	// Map angle (0-180) to OCR0 value (0-255)
+	u16 ocr_value = 124;
+	// Set OCR1B value for pulse width control
+	OCR1B = ocr_value;
+}
 /**********************************************************************************************************************
  *  END OF FILE: FileName.c
  *********************************************************************************************************************/

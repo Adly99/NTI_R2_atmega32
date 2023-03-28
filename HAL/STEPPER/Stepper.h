@@ -2,31 +2,30 @@
 
  *  FILE DESCRIPTION
  *  -------------------------------------------------------------------------------------------------------------------
- *         File:  lcd_types.h
- *       Module:  lcd
+ *         File:  <Write File Name>
+ *       Module:  -
  *
  *  Description:  <Write File DESCRIPTION here>     
  *  
  *********************************************************************************************************************/
-#ifndef LCD_TYPES_H
-#define LCD_TYPES_H
+#ifndef STEPPER_H
+#define STEPPER_H
 
 /**********************************************************************************************************************
  * INCLUDES
  *********************************************************************************************************************/
+#include "../../MCAL/DIO/dio.h"
+#include "StepperCfg.h"
+#include <util/delay.h>
 
 /**********************************************************************************************************************
  *  GLOBAL CONSTANT MACROS
  *********************************************************************************************************************/
-#define lcd_Clear             0x01          /* replace all characters with ASCII 'space'                       */
-#define lcd_Home              0x02          /* return cursor to first position on first line                   */
-#define lcd_EntryMode_8bits   0x06          // shift cursor from left to right on read/write
-#define lcd_DisplayOff        0x08          // turn display off
-#define lcd_DisplayOn         0x0C          // display on, cursor off, don't blink character
-#define lcd_FunctionReset     0x30          // reset the LCD
-#define lcd_FunctionSet4bit   0x28          // 4-bit data, 2-line display, 5 x 7 font
-#define lcd_SetCursor         0x80          // set?cursor?position
+#define StepperForward 0
+#define StepperReverse 1
 
+#define FULLSTEP 0
+#define HALFSTEP 1
 
 /**********************************************************************************************************************
  *  GLOBAL FUNCTION MACROS
@@ -37,20 +36,6 @@
  *  GLOBAL DATA TYPES AND STRUCTURES
  *********************************************************************************************************************/
 
-typedef enum{
-	_LCD_CLEAR=0x01,
-	_LCD_CURSOR_OFF=0x0C,
-	_LCD_CURSOR_ON=0x0F,
-	_LCD_4BIT_MODE=0x28,
-	_LCD_8BIT_MODE=0x38,
-	_LCD_ON=0x0F,
-	_LCD_CURSOR_UNDERLINE=0x0E,
-	_LCD_CURSOR_SHIFT_LEFT=0x10,
-	_LCD_CURSOR_SHIFT_RIGHT=0x14,
-	_LCD_CURSOR_INCREMENT=0x06,
-	_LCD_CGRAM_START_ADDRESS=0x40
-}lcd_cmd_t;
-
 /**********************************************************************************************************************
  *  GLOBAL DATA PROTOTYPES
  *********************************************************************************************************************/
@@ -59,10 +44,16 @@ typedef enum{
 /**********************************************************************************************************************
  *  GLOBAL FUNCTION PROTOTYPES
  *********************************************************************************************************************/
-
+void Stepper_init();
+void Stepper_moveFullStep(u8 StepperIndex, u8 Direction);
+void Stepper_moveFullStepRev(u8 StepperIndex, u8 Direction);
+void Stepper_moveHalfStep(u8 StepperIndex, u8 Direction);
+void Stepper_moveHalfStepRev(u8 StepperIndex, u8 Direction);
+void Stepper_moveHalfStepDeg(u8 StepperIndex, u8 Direction, u16 AngleInDegrees);
+void Stepper_moveFullStepDeg(u8 StepperIndex, u8 Direction, u16 AngleInDegrees);
  
-#endif  /* LCD_TYPES_H */
+#endif  /* STEPPER_H */
 
 /**********************************************************************************************************************
- *  END OF FILE: lcd_types.h
+ *  END OF FILE: Stepper.h
  *********************************************************************************************************************/

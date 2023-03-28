@@ -14,9 +14,7 @@
 /**********************************************************************************************************************
  * INCLUDES
  *********************************************************************************************************************/
-#include "..\MCAL\DIO\dio.h"
-// #include <util/delay.h>
-// #include "std_types.h"
+#include "..\..\MCAL\DIO\dio.h"
 #include "lcd_types.h"
 #include "lcd_cfg.h"
 
@@ -48,8 +46,11 @@ void lcd_vidSendData(u8 data);
 void lcd_vidSendCmd(lcd_cmd_t cmd);
 void lcd_vidGotoRowColumn(u8 row, u8 column);
 void lcd_vidDisplyChar(u8 chr);
-void lcd_vidDisplyStr(u8* str);
+void lcd_vidDisplyStr(char *str);
 void lcd_vidCustomWrite(void);
+
+
+void lcd_vidsendnumber(u16 value);
  
 #endif  /* FILE_NAME_H */
 

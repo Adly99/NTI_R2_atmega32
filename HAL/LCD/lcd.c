@@ -13,7 +13,6 @@
  *  INCLUDES
  *********************************************************************************************************************/
 #include "lcd.h"
-/*#include "std_types.h"*/
 /**********************************************************************************************************************
 *  LOCAL MACROS CONSTANT\FUNCTION
 *********************************************************************************************************************/
@@ -76,17 +75,31 @@ void lcd_vidInit(void)
 	dio_vidConfigChannel(LCD_D5_PORT, LCD_D5_CHANNEL, OUTPUT);
 	dio_vidConfigChannel(LCD_D6_PORT, LCD_D6_CHANNEL, OUTPUT);
 	dio_vidConfigChannel(LCD_D7_PORT, LCD_D7_CHANNEL, OUTPUT);
-// 	dio_vidWriteChannel(LCD_EN_PORT,LCD_EN_CHANNEL,STD_LOW);
-	_delay_ms(15);
+	// 	dio_vidWriteChannel(LCD_EN_PORT,LCD_EN_CHANNEL,STD_LOW);
 
- 	lcd_vidSendCmd(0x03);
- 	_delay_ms(5);
+	lcd_vidSendCmd(0x02);
+	_delay_ms(5);
 	lcd_vidSendCmd(0x03);
 	_delay_us(100);
-lcd_vidSendCmd(0x03); 
-	lcd_vidSendCmd(0x02);
-	lcd_vidSendCmd(_LCD_4BIT_MODE); // to initialize LCD in 4-bit mode.
-/*	lcd_vidSendCmd(0x0E);*/
+	lcd_vidSendCmd(lcd_Home);
+	_delay_ms(15);
+	lcd_vidSendCmd(lcd_FunctionSet4bit);
+	_delay_ms(1);
+	lcd_vidSendCmd(lcd_DisplayOn );
+	_delay_ms(1);
+	lcd_vidSendCmd(lcd_Clear);
+	_delay_ms(1);
+
+/*
+ 	lcd_vidSendCmd(0x03);
+ 	_delay_ms(5);
+ 	lcd_vidSendCmd(0x03);
+  	_delay_us(100);
+ 	lcd_vidSendCmd(0x03);
+  	lcd_vidSendCmd(0x02);
+  	lcd_vidSendCmd(_LCD_4BIT_MODE); // to initialize LCD in 4-bit mode.
+    lcd_vidSendCmd(0x0E);
+*/
 	lcd_vidCustomWrite();
 	lcd_vidGotoRowColumn(0, 0);
 }
@@ -171,18 +184,18 @@ void lcd_vidGotoRowColumn(u8 row, u8 column)
 
 	case 1:
 		/* Row 1 */
-		lcd_vidSendCmd(0x94+column);
+		lcd_vidSendCmd(0xC0+column);
 		break;
 
-// 	case 2:
-// 	/* Row 1 */
-// 	lcd_vidSendCmd(0xC0+column);
-// 	break;
-// 	
-// 	case 3:
-// 	/* Row 1 */
-// 	lcd_vidSendCmd(0xC0+column);
-// 	break;			
+ 	case 2:
+ 	/* Row 2 */
+ 	lcd_vidSendCmd(0x94+column);
+ 	break;
+ 	
+ 	case 3:
+ 	/* Row 3 */
+ 	lcd_vidSendCmd(0xD4+column);
+ 	break;			
 	}	
 }
 
@@ -209,7 +222,7 @@ void lcd_vidDisplyChar(u8 chr)
 * \Parameters (in) : str	-> string to be displayed														
 * \Return value:   : None                                 
 *******************************************************************************/
-void lcd_vidDisplyStr(u8* str)
+void lcd_vidDisplyStr(char *str)
 {
 	while (*str != '\0')
 	{
@@ -241,6 +254,30 @@ void lcd_vidCustomWrite(void)
 		}
 	}	
 }
+
+
+
+
+
+
+void lcd_vidsendnumber(u16 value)
+{
+	u16 rev=0;
+	u16 x=0;
+	while(value!=0)
+	{
+		rev=(rev*10)+(value%10);
+		value=value/10;
+	}
+
+	while(rev!=0)
+	{
+		x=rev%10;
+		rev=rev/10;
+		lcd_vidSendData(48+x);
+	}
+}
+
 /**********************************************************************************************************************
  *  END OF FILE: lcd_cfg.c
  *********************************************************************************************************************/
