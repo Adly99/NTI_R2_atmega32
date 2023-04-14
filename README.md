@@ -21,7 +21,7 @@ NTI_R2_atmega32_interface
 5. BCD_SEVEN_SEG driver
 6. STEPPER MOTOR driver																																																									
 
-#Service 
+# Service 
 1. stack
 2. queue
 3. storing algoritm
