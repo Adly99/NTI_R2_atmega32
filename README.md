@@ -22,9 +22,9 @@ NTI_R2_atmega32_interface
 6. STEPPER MOTOR driver																																																									
 
 #Service 
-1.stack
-2.queue
-3.storing algoritm
+1. stack
+2. queue
+3. storing algoritm
 
 # LIB 
 1. bit_math
