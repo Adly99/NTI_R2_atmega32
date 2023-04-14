@@ -17,9 +17,14 @@ NTI_R2_atmega32_interface
 1. LED driver      																							      				                               																
 2. Button driver																																				                                      			
 3. LCD driver																																																										
-4. Keypad driver																																																																	
+4. Keypad driver																																																															
 5. BCD_SEVEN_SEG driver
 6. STEPPER MOTOR driver																																																									
+
+#Service 
+1.stack
+2.queue
+3.storing algoritm
 
 # LIB 
 1. bit_math
