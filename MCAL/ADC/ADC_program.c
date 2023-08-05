@@ -134,59 +134,44 @@ void ADC_voidAutoTrigger()
 /** !comment : From Data Sheet : Starting conversion on positive*/
 /*			   edge when ADATE = 1						    	*/
 /****************************************************************/
-
-	
 	/** Enable ADC Auto Trigger	 							   **/
-	/** ADATE = 1 =====> 	SET_BIT( ADATE , 5 ); 			   **/
-
+	/** ADATE = 1 =====> 	SET_BIT( ADATE , 5 ); enable or disable for this mode __ adc auto trigger enable 	**/
     SET_BIT( ADCSRA , 5 );
-	
-
 		/*  ( if / else if ) condition for Macros */
 	#if ADC_AUTO_TRIGGER_SOURCE == FREE_RUNNING_MODE 
 	CLEAR_BIT( SFIOR , 0 );
 	CLEAR_BIT( SFIOR , 1 );
 	CLEAR_BIT( SFIOR , 2 );
-	
 	#elif ADC_AUTO_TRIGGER_SOURCE == ANALOG_COMPARATOR
-	SET_BIT( SFIOR , 0 );
+	SET_BIT  ( SFIOR , 0 );
 	CLEAR_BIT( SFIOR , 1 );
 	CLEAR_BIT( SFIOR , 2 );
-	
-	#elif ADC_AUTO_TRIGGER_SOURCE == EXTERNAL_INTERRPUT_REQUEST_0
+	#elif ADC_AUTO_TRIGGER_SOURCE == EXTERNAL_INTERRPUT_REQUEST_0         
 	CLEAR_BIT( SFIOR , 0 );
 	SET_BIT( SFIOR , 1 );
 	CLEAR_BIT( SFIOR , 2 );
-	
-	
-	#elif ADC_AUTO_TRIGGER_SOURCE == TIMER_COUNTER_0_COMPARE_MATCH
+	#elif ADC_AUTO_TRIGGER_SOURCE == TIMER_COUNTER_0_COMPARE_MATCH       
 	SET_BIT( SFIOR , 0 );
 	SET_BIT( SFIOR , 1 );
 	CLEAR_BIT( SFIOR , 2 );
-
 	#elif ADC_AUTO_TRIGGER_SOURCE == TIMER_COUNTER_0_OVERFLOW
 	CLEAR_BIT( SFIOR , 0 );
 	CLEAR_BIT( SFIOR , 1 );
 	SET_BIT( SFIOR , 2 );
-	
 	#elif ADC_AUTO_TRIGGER_SOURCE == TIMER_COUNTER_COMPARE_MATCH_B
 	SET_BIT( SFIOR , 0 );
 	CLEAR_BIT( SFIOR , 1 );
 	SET_BIT( SFIOR , 2 );
-
 	#elif ADC_AUTO_TRIGGER_SOURCE == TIMER_COUNTER_1_OVERFLOW
 	CLEAR_BIT( SFIOR , 0 );
 	SET_BIT( SFIOR , 1 );
 	SET_BIT( SFIOR , 2 );
-
 	#elif ADC_AUTO_TRIGGER_SOURCE == TIMER_COUNTER_1_CAPTURE_EVENT
 	SET_BIT( SFIOR , 0 );
 	SET_BIT( SFIOR , 1 );
 	SET_BIT( SFIOR , 2 );	
-	
 	#endif
 	/* End ( if ) condition for Macros */
-	
 }
 
 void ADC_voidCallBack(pf addresscpy)
@@ -243,7 +228,8 @@ u16 ADC_u16ReadADCInMV_INTERRUPT(void)
 // void __vector_16(void)
 // {			
 // 			u8 String[5];
-// 			u16 mv_result = ADCL ;
+// 			u16 mv_result = ADCL ;
+
 // 			mv_result |= (ADCH << 8); // we use ADLAR = 0										
 // 	 		lcd_vidGotoRowColumn(1,1);
 // 	 		itoa(mv_result,String,10);	/* Integer to string conversion */
